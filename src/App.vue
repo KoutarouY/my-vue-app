@@ -1,16 +1,24 @@
+```html
 <template>
   <div id="app">
-    <div class="hello-world">
+    <div class="hello-wrold">
       <img alt="Vue logo" src="./assets/logo.png" />
-      <div class="hello-world__message">{{ message }}</div>
+      <div class="hello-wrold__message">
+        {{ message }}
+      </div>
     </div>
+    <TodoList></TodoList>
   </div>
 </template>
 
 <script>
+import TodoList from "@/components/TodoList.vue"
 export default {
   name: "App",
-  deta: function () {
+  components: {
+    TodoList,
+  },
+  data: function () {
     return {
       message: "WebExpert Course Vue Template",
     }
@@ -28,10 +36,11 @@ export default {
 </style>
 
 <style scoped>
-.hello-world {
+.hello-wrold {
   margin-top: 60px;
   text-align: center;
 }
+
 .hello-wrold .hello-world__message {
   color: #2c3e50;
 }
