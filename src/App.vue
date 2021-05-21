@@ -1,4 +1,3 @@
-```html
 <template>
   <div id="app">
     <div class="hello-wrold">
@@ -8,15 +7,18 @@
       </div>
     </div>
     <TodoList></TodoList>
+    <Counter v-bind:initialValue="1000"></Counter>
   </div>
 </template>
 
 <script>
 import TodoList from "@/components/TodoList.vue"
+import Counter from "@/components/Counter.vue"
 export default {
   name: "App",
   components: {
     TodoList,
+    Counter,
   },
   data: function () {
     return {
