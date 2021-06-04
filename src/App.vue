@@ -1,49 +1,65 @@
 <template>
-  <div id="app">
-    <div class="hello-wrold">
-      <img alt="Vue logo" src="./assets/logo.png" />
-      <div class="hello-wrold__message">
-        {{ message }}
-      </div>
-    </div>
-    <TodoList></TodoList>
-    <Counter v-bind:initialValue="1000"></Counter>
+  <div class="app">
+    <h1>カラオケの点数を自慢しよう！</h1>
+    <h4>曲名と点数を書いてみて下さい！（記入例)家族になろうよ/ ８５点</h4>
+    <input type="text" v-model="score" />
+    <button v-on:click="AfterButton">送信</button>
+    <img
+    src=https://big-echo.jp/wordpress/wp-content/uploads/2013/11/brand_logo_bigecho1_1.gif
+    />
   </div>
 </template>
-
 <script>
-import TodoList from "@/components/TodoList.vue"
-import Counter from "@/components/Counter.vue"
+import firebase from "firebase"
 export default {
-  name: "App",
-  components: {
-    TodoList,
-    Counter,
-  },
-  data: function () {
+  data() {
     return {
-      message: "WebExpert Course Vue Template",
+      karaoke: [],
+      score: "",
     }
   },
-  methods: {},
+  methods: {
+    AfterButton() {
+      firebase.firestore().collection("karaoke").add({
+        text: this.score,
+      })
+    },
+  },
+  created() {
+    firebase
+      .firestore()
+      .collection("karaoke")
+      .get()
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          this.karaoke.push({
+            id: doc.id,
+            ...doc.data(),
+          })
+        })
+      })
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
+  background-image: url(https://animeanime.jp/imgs/p/jtKDOVlKAvjRrNw8SXAVejagI61Nrq_oqaqr/166385.png);
+  background-size: cover;
 }
-</style>
-
-<style scoped>
-.hello-wrold {
-  margin-top: 60px;
-  text-align: center;
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 }
-
-.hello-wrold .hello-world__message {
-  color: #2c3e50;
+.app h1 {
+  font-size: 60px;
+  color: cornflowerblue;
 }
 </style>
